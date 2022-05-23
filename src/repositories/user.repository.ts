@@ -1,8 +1,12 @@
-import {inject, Getter} from '@loopback/core';
-import {DefaultCrudRepository, repository, HasOneRepositoryFactory} from '@loopback/repository';
+import {Getter, inject} from '@loopback/core';
+import {
+  DefaultCrudRepository,
+  HasOneRepositoryFactory,
+  repository,
+} from '@loopback/repository';
 import {IndulgeDBDataSource} from '../datasources';
-import { UserServiceBindings } from '../keys';
-import {User, UserRelations, UserCredentials} from '../models';
+import {UserServiceBindings} from '../keys';
+import {User, UserCredentials, UserRelations} from '../models';
 import {UserCredentialsRepository} from './user-credentials.repository';
 
 export class UserRepository extends DefaultCrudRepository<
@@ -10,18 +14,31 @@ export class UserRepository extends DefaultCrudRepository<
   typeof User.prototype.userId,
   UserRelations
 > {
-
-  public readonly userCredentials: HasOneRepositoryFactory<UserCredentials, typeof User.prototype.userId>;
+  public readonly userCredentials: HasOneRepositoryFactory<
+    UserCredentials,
+    typeof User.prototype.userId
+  >;
 
   constructor(
-    @inject(`datasources.${UserServiceBindings.DATASOURCE_NAME}`) dataSource: IndulgeDBDataSource, @repository.getter('UserCredentialsRepository') protected userCredentialsRepositoryGetter: Getter<UserCredentialsRepository>,
+    @inject(`datasources.${UserServiceBindings.DATASOURCE_NAME}`)
+    dataSource: IndulgeDBDataSource,
+    @repository.getter('UserCredentialsRepository')
+    protected userCredentialsRepositoryGetter: Getter<UserCredentialsRepository>,
   ) {
     super(User, dataSource);
-    this.userCredentials = this.createHasOneRepositoryFactoryFor('userCredentials', userCredentialsRepositoryGetter);
-    this.registerInclusionResolver('userCredentials', this.userCredentials.inclusionResolver);
+    this.userCredentials = this.createHasOneRepositoryFactoryFor(
+      'userCredentials',
+      userCredentialsRepositoryGetter,
+    );
+    this.registerInclusionResolver(
+      'userCredentials',
+      this.userCredentials.inclusionResolver,
+    );
   }
 
-  async findCredentials(userId: typeof User.prototype.userId): Promise<UserCredentials | undefined> {
+  async findCredentials(
+    userId: typeof User.prototype.userId,
+  ): Promise<UserCredentials | undefined> {
     try {
       return await this.userCredentials(userId).get();
     } catch (err) {

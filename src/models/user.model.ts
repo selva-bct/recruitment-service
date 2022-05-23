@@ -1,4 +1,4 @@
-import {Entity, model, property, hasOne} from '@loopback/repository';
+import {Entity, hasOne, model, property} from '@loopback/repository';
 import {UserCredentials} from './user-credentials.model';
 
 @model()
@@ -24,7 +24,7 @@ export class User extends Entity {
     },
     jsonSchema: {
       transform: ['toLowerCase'],
-    }
+    },
   })
   username: string;
 
@@ -35,8 +35,8 @@ export class User extends Entity {
       pattern: '^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{5,512})',
       minLength: 8,
       maxLength: 512,
-      format: 'password'
-    }
+      format: 'password',
+    },
   })
   password: string;
 
@@ -92,7 +92,7 @@ export class User extends Entity {
     required: true,
   })
   userLoginAttempt: number;
-  
+
   @property({
     type: 'string',
     required: true,

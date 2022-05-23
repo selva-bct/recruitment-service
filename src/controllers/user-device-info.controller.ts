@@ -7,13 +7,13 @@ import {
   Where,
 } from '@loopback/repository';
 import {
-  post,
-  param,
+  del,
   get,
   getModelSchemaRef,
+  param,
   patch,
+  post,
   put,
-  del,
   requestBody,
   response,
 } from '@loopback/rest';
@@ -23,7 +23,7 @@ import {UserDeviceInfoRepository} from '../repositories';
 export class UserDeviceInfoController {
   constructor(
     @repository(UserDeviceInfoRepository)
-    public userDeviceInfoRepository : UserDeviceInfoRepository,
+    public userDeviceInfoRepository: UserDeviceInfoRepository,
   ) {}
 
   @post('/user-device-infos')
@@ -106,7 +106,8 @@ export class UserDeviceInfoController {
   })
   async findById(
     @param.path.string('id') id: string,
-    @param.filter(UserDeviceInfo, {exclude: 'where'}) filter?: FilterExcludingWhere<UserDeviceInfo>
+    @param.filter(UserDeviceInfo, {exclude: 'where'})
+    filter?: FilterExcludingWhere<UserDeviceInfo>,
   ): Promise<UserDeviceInfo> {
     return this.userDeviceInfoRepository.findById(id, filter);
   }

@@ -1,8 +1,8 @@
 import {inject} from '@loopback/core';
 import {DefaultCrudRepository} from '@loopback/repository';
 import {IndulgeDBDataSource} from '../datasources';
+import {UserServiceBindings} from '../keys';
 import {RoleMapping, RoleMappingRelations} from '../models';
-import { UserServiceBindings } from '../keys';
 
 export class RoleMappingRepository extends DefaultCrudRepository<
   RoleMapping,
@@ -10,7 +10,8 @@ export class RoleMappingRepository extends DefaultCrudRepository<
   RoleMappingRelations
 > {
   constructor(
-    @inject(`datasources.${UserServiceBindings.DATASOURCE_NAME}`) dataSource: IndulgeDBDataSource,
+    @inject(`datasources.${UserServiceBindings.DATASOURCE_NAME}`)
+    dataSource: IndulgeDBDataSource,
   ) {
     super(RoleMapping, dataSource);
   }

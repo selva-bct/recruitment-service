@@ -1,16 +1,16 @@
 import {BootMixin} from '@loopback/boot';
 import {ApplicationConfig} from '@loopback/core';
+import {RepositoryMixin} from '@loopback/repository';
+import {RestApplication} from '@loopback/rest';
 import {
   RestExplorerBindings,
   RestExplorerComponent,
 } from '@loopback/rest-explorer';
-import {RepositoryMixin} from '@loopback/repository';
-import {RestApplication} from '@loopback/rest';
 import {ServiceMixin} from '@loopback/service-proxy';
 import path from 'path';
+import {JWTAuthenticationComponent} from './component/jwt-authentication-component';
+import {IndulgeDBDataSource} from './datasources';
 import {MySequence} from './sequence';
-import { JWTAuthenticationComponent } from './component/jwt-authentication-component';
-import { IndulgeDBDataSource  } from "./datasources";
 export {ApplicationConfig};
 
 export class UserServiceApplication extends BootMixin(
@@ -30,7 +30,7 @@ export class UserServiceApplication extends BootMixin(
       path: '/explorer',
     });
     this.component(RestExplorerComponent);
-    
+
     this.dataSource(IndulgeDBDataSource);
     this.component(JWTAuthenticationComponent);
 

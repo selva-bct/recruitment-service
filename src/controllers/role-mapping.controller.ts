@@ -7,13 +7,13 @@ import {
   Where,
 } from '@loopback/repository';
 import {
-  post,
-  param,
+  del,
   get,
   getModelSchemaRef,
+  param,
   patch,
+  post,
   put,
-  del,
   requestBody,
   response,
 } from '@loopback/rest';
@@ -23,7 +23,7 @@ import {RoleMappingRepository} from '../repositories';
 export class RoleMappingController {
   constructor(
     @repository(RoleMappingRepository)
-    public roleMappingRepository : RoleMappingRepository,
+    public roleMappingRepository: RoleMappingRepository,
   ) {}
 
   @post('/role-mappings')
@@ -106,7 +106,8 @@ export class RoleMappingController {
   })
   async findById(
     @param.path.string('id') id: string,
-    @param.filter(RoleMapping, {exclude: 'where'}) filter?: FilterExcludingWhere<RoleMapping>
+    @param.filter(RoleMapping, {exclude: 'where'})
+    filter?: FilterExcludingWhere<RoleMapping>,
   ): Promise<RoleMapping> {
     return this.roleMappingRepository.findById(id, filter);
   }

@@ -23,7 +23,6 @@ export class UserCredentials extends Entity {
   userId: string;
   // [prop: string]: any;
 
-
   constructor(data?: Partial<UserCredentials>) {
     super(data);
   }
@@ -33,4 +32,5 @@ export interface UserCredentialsRelations {
   // describe navigational properties here
 }
 
-export type UserCredentialsWithRelations = UserCredentials & UserCredentialsRelations;
+export type UserCredentialsWithRelations = UserCredentials &
+  UserCredentialsRelations;

@@ -7,13 +7,13 @@ import {
   Where,
 } from '@loopback/repository';
 import {
-  post,
-  param,
+  del,
   get,
   getModelSchemaRef,
+  param,
   patch,
+  post,
   put,
-  del,
   requestBody,
   response,
 } from '@loopback/rest';
@@ -23,7 +23,7 @@ import {WaitlistRepository} from '../repositories';
 export class WaitlistController {
   constructor(
     @repository(WaitlistRepository)
-    public waitlistRepository : WaitlistRepository,
+    public waitlistRepository: WaitlistRepository,
   ) {}
 
   @post('/waitlists')
@@ -52,9 +52,7 @@ export class WaitlistController {
     description: 'Waitlist model count',
     content: {'application/json': {schema: CountSchema}},
   })
-  async count(
-    @param.where(Waitlist) where?: Where<Waitlist>,
-  ): Promise<Count> {
+  async count(@param.where(Waitlist) where?: Where<Waitlist>): Promise<Count> {
     return this.waitlistRepository.count(where);
   }
 
@@ -106,7 +104,8 @@ export class WaitlistController {
   })
   async findById(
     @param.path.string('id') id: string,
-    @param.filter(Waitlist, {exclude: 'where'}) filter?: FilterExcludingWhere<Waitlist>
+    @param.filter(Waitlist, {exclude: 'where'})
+    filter?: FilterExcludingWhere<Waitlist>,
   ): Promise<Waitlist> {
     return this.waitlistRepository.findById(id, filter);
   }

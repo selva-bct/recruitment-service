@@ -1,6 +1,6 @@
 import {inject, lifeCycleObserver, LifeCycleObserver} from '@loopback/core';
 import {juggler} from '@loopback/repository';
-import { UserServiceBindings } from '../keys';
+import {UserServiceBindings} from '../keys';
 
 const config = {
   name: UserServiceBindings.DATASOURCE_NAME,
@@ -10,7 +10,7 @@ const config = {
   port: 0,
   user: '',
   password: '',
-  database: ''
+  database: '',
 };
 
 // Observe application's life cycle to disconnect the datasource when
@@ -18,13 +18,17 @@ const config = {
 // gracefully. The `stop()` method is inherited from `juggler.DataSource`.
 // Learn more at https://loopback.io/doc/en/lb4/Life-cycle.html
 @lifeCycleObserver('datasource')
-export class IndulgeDBDataSource extends juggler.DataSource
-  implements LifeCycleObserver {
+export class IndulgeDBDataSource
+  extends juggler.DataSource
+  implements LifeCycleObserver
+{
   static dataSourceName = UserServiceBindings.DATASOURCE_NAME;
   static readonly defaultConfig = config;
 
   constructor(
-    @inject(`datasources.config.${UserServiceBindings.DATASOURCE_NAME}`, {optional: true})
+    @inject(`datasources.config.${UserServiceBindings.DATASOURCE_NAME}`, {
+      optional: true,
+    })
     dsConfig: object = config,
   ) {
     super(dsConfig);

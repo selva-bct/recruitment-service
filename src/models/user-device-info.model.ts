@@ -19,7 +19,7 @@ export class UserDeviceInfo extends Entity {
     type: 'string',
     required: true,
   })
-  os_version: string;
+  osVersion: string;
 
   @property({
     type: 'string',
@@ -39,7 +39,6 @@ export class UserDeviceInfo extends Entity {
   })
   deviceCategory?: string;
 
-
   constructor(data?: Partial<UserDeviceInfo>) {
     super(data);
   }
@@ -49,4 +48,5 @@ export interface UserDeviceInfoRelations {
   // describe navigational properties here
 }
 
-export type UserDeviceInfoWithRelations = UserDeviceInfo & UserDeviceInfoRelations;
+export type UserDeviceInfoWithRelations = UserDeviceInfo &
+  UserDeviceInfoRelations;

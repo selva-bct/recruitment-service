@@ -5,9 +5,9 @@
 
 import {TokenService, UserService} from '@loopback/authentication';
 import {BindingKey} from '@loopback/core';
+import {RefreshTokenService} from './interface/Refresh-token-service-interface';
 import {User} from './models';
 import {Credentials} from './services/user.service';
-import {RefreshTokenService} from './interface/Refresh-token-service-interface';
 
 // Todo:: need to rewrite the following items to pick values from the env file
 export namespace TokenServiceConstants {

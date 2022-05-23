@@ -6,4 +6,3 @@ export type TokenObject = {
   expiresIn?: string | undefined;
   refreshToken?: string | undefined;
 };
-

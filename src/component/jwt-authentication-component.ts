@@ -10,19 +10,19 @@ import {
   Component,
   CoreBindings,
   createBindingFromClass,
-  inject
+  inject,
 } from '@loopback/core';
 import {
   RefreshTokenConstants,
   RefreshTokenServiceBindings,
   TokenServiceBindings,
   TokenServiceConstants,
-  UserServiceBindings
+  UserServiceBindings,
 } from '../keys';
 import {
   RefreshTokenRepository,
   UserCredentialsRepository,
-  UserRepository
+  UserRepository,
 } from '../repositories';
 import {MyUserService, RefreshtokenService} from '../services';
 import {JWTAuthenticationStrategy} from '../services/jwt.auth.strategy';

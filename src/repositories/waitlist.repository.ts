@@ -1,7 +1,7 @@
 import {inject} from '@loopback/core';
 import {DefaultCrudRepository} from '@loopback/repository';
 import {IndulgeDBDataSource} from '../datasources';
-import { UserServiceBindings } from '../keys';
+import {UserServiceBindings} from '../keys';
 import {Waitlist, WaitlistRelations} from '../models';
 
 export class WaitlistRepository extends DefaultCrudRepository<
@@ -10,7 +10,8 @@ export class WaitlistRepository extends DefaultCrudRepository<
   WaitlistRelations
 > {
   constructor(
-    @inject(`datasources.${UserServiceBindings.DATASOURCE_NAME}`) dataSource: IndulgeDBDataSource,
+    @inject(`datasources.${UserServiceBindings.DATASOURCE_NAME}`)
+    dataSource: IndulgeDBDataSource,
   ) {
     super(Waitlist, dataSource);
   }

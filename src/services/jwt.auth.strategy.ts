@@ -15,7 +15,7 @@ export class JWTAuthenticationStrategy implements AuthenticationStrategy {
   constructor(
     @inject(TokenServiceBindings.TOKEN_SERVICE)
     public tokenService: TokenService,
-  ) { }
+  ) {}
 
   async authenticate(request: Request): Promise<UserProfile | undefined> {
     const token: string = this.extractCredentials(request);

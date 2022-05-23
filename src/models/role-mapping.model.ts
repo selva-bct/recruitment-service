@@ -9,7 +9,6 @@ export class RoleMapping extends Entity {
   })
   roleMappingId?: string;
 
-
   constructor(data?: Partial<RoleMapping>) {
     super(data);
   }

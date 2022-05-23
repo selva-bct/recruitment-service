@@ -20,7 +20,6 @@ export class Role extends Entity {
   })
   description?: string;
 
-
   constructor(data?: Partial<Role>) {
     super(data);
   }

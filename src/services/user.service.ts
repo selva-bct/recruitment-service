@@ -23,7 +23,7 @@ export type Credentials = {
 export class MyUserService implements UserService<User, Credentials> {
   constructor(
     @repository(UserRepository) public userRepository: UserRepository,
-  ) { }
+  ) {}
 
   async verifyCredentials(credentials: Credentials): Promise<User> {
     const invalidCredentialsError = 'Invalid email or password.';
@@ -68,7 +68,7 @@ export class MyUserService implements UserService<User, Credentials> {
   async findUserById(id: string): Promise<User & UserWithRelations> {
     const userNotfound = 'invalid User';
     const foundUser = await this.userRepository.findOne({
-      where: { userId: id },
+      where: {userId: id},
     });
 
     if (!foundUser) {
