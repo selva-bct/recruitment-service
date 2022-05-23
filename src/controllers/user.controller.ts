@@ -23,7 +23,7 @@ import {
 import {SecurityBindings, securityId, UserProfile} from '@loopback/security';
 import {genSalt, hash} from 'bcryptjs';
 import {TokenServiceBindings, UserServiceBindings} from '../keys';
-import {User} from '../models';
+import {User, Waitlist} from '../models';
 import {UserRepository} from '../repositories';
 import {Credentials, MyUserService} from '../services';
 
@@ -262,5 +262,23 @@ export class UserController {
   })
   async deleteById(@param.path.string('id') id: string): Promise<void> {
     await this.userRepository.deleteById(id);
+  }
+
+  @get('/users/{id}/waitlist', {
+    responses: {
+      '200': {
+        description: 'Waitlist belonging to User',
+        content: {
+          'application/json': {
+            schema: {type: 'array', items: getModelSchemaRef(Waitlist)},
+          },
+        },
+      },
+    },
+  })
+  async getWaitlist(
+    @param.path.string('id') id: typeof User.prototype.userId,
+  ): Promise<Waitlist> {
+    return this.userRepository.waitlist(id);
   }
 }

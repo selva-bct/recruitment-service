@@ -1,5 +1,6 @@
-import {Entity, hasOne, model, property} from '@loopback/repository';
+import {Entity, hasOne, model, property, belongsTo} from '@loopback/repository';
 import {UserCredentials} from './user-credentials.model';
+import {Waitlist} from './waitlist.model';
 
 @model()
 export class User extends Entity {
@@ -107,6 +108,9 @@ export class User extends Entity {
 
   @hasOne(() => UserCredentials)
   userCredentials: UserCredentials;
+
+  @belongsTo(() => Waitlist)
+  waitlistId: string;
 
   constructor(data?: Partial<User>) {
     super(data);

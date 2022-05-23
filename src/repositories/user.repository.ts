@@ -2,12 +2,12 @@ import {Getter, inject} from '@loopback/core';
 import {
   DefaultCrudRepository,
   HasOneRepositoryFactory,
-  repository,
-} from '@loopback/repository';
+  repository, BelongsToAccessor} from '@loopback/repository';
 import {IndulgeDBDataSource} from '../datasources';
 import {UserServiceBindings} from '../keys';
-import {User, UserCredentials, UserRelations} from '../models';
+import {User, UserCredentials, UserRelations, Waitlist} from '../models';
 import {UserCredentialsRepository} from './user-credentials.repository';
+import {WaitlistRepository} from './waitlist.repository';
 
 export class UserRepository extends DefaultCrudRepository<
   User,
@@ -19,13 +19,17 @@ export class UserRepository extends DefaultCrudRepository<
     typeof User.prototype.userId
   >;
 
+  public readonly waitlist: BelongsToAccessor<Waitlist, typeof User.prototype.userId>;
+
   constructor(
     @inject(`datasources.${UserServiceBindings.DATASOURCE_NAME}`)
     dataSource: IndulgeDBDataSource,
     @repository.getter('UserCredentialsRepository')
-    protected userCredentialsRepositoryGetter: Getter<UserCredentialsRepository>,
+    protected userCredentialsRepositoryGetter: Getter<UserCredentialsRepository>, @repository.getter('WaitlistRepository') protected waitlistRepositoryGetter: Getter<WaitlistRepository>,
   ) {
     super(User, dataSource);
+    this.waitlist = this.createBelongsToAccessorFor('waitlist', waitlistRepositoryGetter,);
+    this.registerInclusionResolver('waitlist', this.waitlist.inclusionResolver);
     this.userCredentials = this.createHasOneRepositoryFactoryFor(
       'userCredentials',
       userCredentialsRepositoryGetter,
