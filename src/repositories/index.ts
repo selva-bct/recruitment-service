@@ -4,3 +4,4 @@ export * from './user-credentials.repository';
 export * from './user-device-info.repository';
 export * from './user.repository';
 export * from './waitlist.repository';
+export * from './refresh-token.repository';

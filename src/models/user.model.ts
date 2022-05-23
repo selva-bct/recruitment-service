@@ -8,7 +8,7 @@ export class User extends Entity {
     id: true,
     generated: true,
   })
-  userId?: string;
+  userId: string;
 
   @property({
     type: 'date',
