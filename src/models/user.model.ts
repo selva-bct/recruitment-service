@@ -1,4 +1,13 @@
-import {Entity, hasOne, model, property, belongsTo} from '@loopback/repository';
+import {
+  belongsTo,
+  Entity,
+  hasMany,
+  hasOne,
+  model,
+  property,
+} from '@loopback/repository';
+import {RoleMapping} from './role-mapping.model';
+import {Role} from './role.model';
 import {UserCredentials} from './user-credentials.model';
 import {Waitlist} from './waitlist.model';
 
@@ -111,6 +120,9 @@ export class User extends Entity {
 
   @belongsTo(() => Waitlist)
   waitlistId: string;
+
+  @hasMany(() => Role, {through: {model: () => RoleMapping}})
+  roles: Role[];
 
   constructor(data?: Partial<User>) {
     super(data);

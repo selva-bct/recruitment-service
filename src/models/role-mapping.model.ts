@@ -7,7 +7,17 @@ export class RoleMapping extends Entity {
     id: true,
     generated: true,
   })
-  roleMappingId?: string;
+  roleMappingId: string;
+
+  @property({
+    type: 'string',
+  })
+  userId: string;
+
+  @property({
+    type: 'string',
+  })
+  roleId: string;
 
   constructor(data?: Partial<RoleMapping>) {
     super(data);
