@@ -1,1 +1,1 @@
-export * from './indulge-sql.datasource';
+export * from './indulge-db.datasource';

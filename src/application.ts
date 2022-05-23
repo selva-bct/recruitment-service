@@ -9,7 +9,8 @@ import {RestApplication} from '@loopback/rest';
 import {ServiceMixin} from '@loopback/service-proxy';
 import path from 'path';
 import {MySequence} from './sequence';
-
+import { JWTAuthenticationComponent } from './component/jwt-authentication-component';
+import { IndulgeDBDataSource  } from "./datasources";
 export {ApplicationConfig};
 
 export class UserServiceApplication extends BootMixin(
@@ -29,6 +30,9 @@ export class UserServiceApplication extends BootMixin(
       path: '/explorer',
     });
     this.component(RestExplorerComponent);
+    
+    this.dataSource(IndulgeDBDataSource);
+    this.component(JWTAuthenticationComponent);
 
     this.projectRoot = __dirname;
     // Customize @loopback/boot Booter Conventions here
