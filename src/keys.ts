@@ -11,7 +11,7 @@ import {Credentials} from './services/user.service';
 
 // Todo:: need to rewrite the following items to pick values from the env file
 export namespace TokenServiceConstants {
-  export const TOKEN_SECRET_VALUE = 'Indulge$123';
+  export const TOKEN_SECRET_VALUE = process.env.JWT_TOKEN_SECRET;
   export const TOKEN_EXPIRES_IN_VALUE = '21600';
 }
 
@@ -44,7 +44,7 @@ export namespace RefreshTokenConstants {
   /**
    * The default secret used when generating refresh token.
    */
-  export const REFRESH_SECRET_VALUE = 'Indulger3fr3$htok3n';
+  export const REFRESH_SECRET_VALUE = process.env.JWT_REFRESH_TOKEN_SECRET;
   /**
    * The default expiration time for refresh token.
    */
@@ -52,7 +52,7 @@ export namespace RefreshTokenConstants {
   /**
    * The default issuer used when generating refresh token.
    */
-  export const REFRESH_ISSUER_VALUE = 'Indulgerefresh';
+  export const REFRESH_ISSUER_VALUE = process.env.JWT_REFRESH_TOKEN_ISSUER;
 }
 
 /**
