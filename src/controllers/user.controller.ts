@@ -90,7 +90,7 @@ export class UserController {
   }
 
   @authenticate('jwt')
-  @get('/whoAmI', {
+  @get('/me', {
     responses: {
       '200': {
         description: 'Return current user',
@@ -104,7 +104,7 @@ export class UserController {
       },
     },
   })
-  async whoAmI(
+  async me(
     @inject(SecurityBindings.USER)
     currentUserProfile: UserProfile,
   ): Promise<string> {
@@ -140,7 +140,9 @@ export class UserController {
     const password = await hash(newUserRequest.password, await genSalt());
     newUserRequest.password = password;
     const savedUser = await this.userRepository.create(newUserRequest);
-    await this.userRepository.userCredentials(savedUser.id).create({password});
+    await this.userRepository
+      .userCredentials(savedUser.userId)
+      .create({password});
     return savedUser;
   }
 
