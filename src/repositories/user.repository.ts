@@ -1,17 +1,23 @@
-import {inject} from '@loopback/core';
-import {DefaultCrudRepository} from '@loopback/repository';
+import {inject, Getter} from '@loopback/core';
+import {DefaultCrudRepository, repository, HasOneRepositoryFactory} from '@loopback/repository';
 import {IndulgeDBDataSource} from '../datasources';
 import { UserServiceBindings } from '../keys';
-import {User, UserRelations} from '../models';
+import {User, UserRelations, UserCredentials} from '../models';
+import {UserCredentialsRepository} from './user-credentials.repository';
 
 export class UserRepository extends DefaultCrudRepository<
   User,
   typeof User.prototype.userId,
   UserRelations
 > {
+
+  public readonly userCredentials: HasOneRepositoryFactory<UserCredentials, typeof User.prototype.userId>;
+
   constructor(
-    @inject(`datasources.${UserServiceBindings.DATASOURCE_NAME}`) dataSource: IndulgeDBDataSource,
+    @inject(`datasources.${UserServiceBindings.DATASOURCE_NAME}`) dataSource: IndulgeDBDataSource, @repository.getter('UserCredentialsRepository') protected userCredentialsRepositoryGetter: Getter<UserCredentialsRepository>,
   ) {
     super(User, dataSource);
+    this.userCredentials = this.createHasOneRepositoryFactoryFor('userCredentials', userCredentialsRepositoryGetter);
+    this.registerInclusionResolver('userCredentials', this.userCredentials.inclusionResolver);
   }
 }
