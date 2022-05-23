@@ -24,8 +24,8 @@ import {
 import {SecurityBindings, securityId, UserProfile} from '@loopback/security';
 import {genSalt, hash} from 'bcryptjs';
 import {TokenServiceBindings, UserServiceBindings} from '../keys';
-import {Role, User, Waitlist} from '../models';
-import {UserRepository} from '../repositories';
+import {Role, User, UserDeviceInfo, Waitlist} from '../models';
+import {UserDeviceInfoRepository, UserRepository} from '../repositories';
 import {Credentials, MyUserService} from '../services';
 
 const CredentialsSchema: SchemaObject = {
@@ -60,6 +60,8 @@ export class UserController {
     @inject(SecurityBindings.USER, {optional: true})
     public user: UserProfile,
     @repository(UserRepository) protected userRepository: UserRepository,
+    @repository(UserDeviceInfoRepository)
+    public userDeviceInfoRepository: UserDeviceInfoRepository,
   ) {}
 
   @post('/users/login', {
@@ -367,5 +369,25 @@ export class UserController {
     @param.query.object('where', getWhereSchemaFor(Role)) where?: Where<Role>,
   ): Promise<Count> {
     return this.userRepository.roles(id).delete(where);
+  }
+
+  // Rest api to consume user device
+
+  @get('/user-device-infos/{id}/user', {
+    responses: {
+      '200': {
+        description: 'User belonging to UserDeviceInfo',
+        content: {
+          'application/json': {
+            schema: {type: 'array', items: getModelSchemaRef(User)},
+          },
+        },
+      },
+    },
+  })
+  async getUser(
+    @param.path.string('id') id: typeof UserDeviceInfo.prototype.userDeviceId,
+  ): Promise<User> {
+    return this.userDeviceInfoRepository.user(id);
   }
 }

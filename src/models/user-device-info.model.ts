@@ -1,4 +1,5 @@
-import {Entity, model, property} from '@loopback/repository';
+import {Entity, model, property, belongsTo} from '@loopback/repository';
+import {User} from './user.model';
 
 @model()
 export class UserDeviceInfo extends Entity {
@@ -38,6 +39,9 @@ export class UserDeviceInfo extends Entity {
     required: true,
   })
   deviceCategory?: string;
+
+  @belongsTo(() => User)
+  userId: string;
 
   constructor(data?: Partial<UserDeviceInfo>) {
     super(data);
