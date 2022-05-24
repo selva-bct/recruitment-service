@@ -101,7 +101,7 @@ export class RoleController {
     },
   })
   async findById(
-    @param.path.string('id') id: string,
+    @param.path.number('id') id: number,
     @param.filter(Role, {exclude: 'where'}) filter?: FilterExcludingWhere<Role>,
   ): Promise<Role> {
     return this.roleRepository.findById(id, filter);
@@ -112,7 +112,7 @@ export class RoleController {
     description: 'Role PATCH success',
   })
   async updateById(
-    @param.path.string('id') id: string,
+    @param.path.number('id') id: number,
     @requestBody({
       content: {
         'application/json': {
@@ -130,7 +130,7 @@ export class RoleController {
     description: 'Role PUT success',
   })
   async replaceById(
-    @param.path.string('id') id: string,
+    @param.path.number('id') id: number,
     @requestBody() role: Role,
   ): Promise<void> {
     await this.roleRepository.replaceById(id, role);
@@ -140,7 +140,7 @@ export class RoleController {
   @response(204, {
     description: 'Role DELETE success',
   })
-  async deleteById(@param.path.string('id') id: string): Promise<void> {
+  async deleteById(@param.path.number('id') id: number): Promise<void> {
     await this.roleRepository.deleteById(id);
   }
 }

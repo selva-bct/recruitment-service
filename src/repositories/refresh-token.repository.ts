@@ -5,7 +5,7 @@ import {RefreshToken, RefreshTokenRelations} from '../models';
 
 export class RefreshTokenRepository extends DefaultCrudRepository<
   RefreshToken,
-  typeof RefreshToken.prototype.id,
+  typeof RefreshToken.prototype.refreshTokenId,
   RefreshTokenRelations
 > {
   constructor(

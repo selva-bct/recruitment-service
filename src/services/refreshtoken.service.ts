@@ -70,7 +70,7 @@ export class RefreshtokenService {
 
       const userRefreshData = await this.verifyToken(refreshToken);
       const user = await this.userService.findUserById(
-        userRefreshData.userId.toString(),
+        Number(userRefreshData.userId),
       );
       const userProfile: UserProfile =
         this.userService.convertToUserProfile(user);

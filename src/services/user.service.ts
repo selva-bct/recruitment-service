@@ -65,7 +65,7 @@ export class MyUserService implements UserService<User, Credentials> {
   }
 
   //function to find user by id
-  async findUserById(id: string): Promise<User & UserWithRelations> {
+  async findUserById(id: number): Promise<User & UserWithRelations> {
     const userNotfound = 'invalid User';
     const foundUser = await this.userRepository.findOne({
       where: {userId: id},

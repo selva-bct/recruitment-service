@@ -105,7 +105,7 @@ export class UserDeviceInfoController {
     },
   })
   async findById(
-    @param.path.string('id') id: string,
+    @param.path.number('id') id: number,
     @param.filter(UserDeviceInfo, {exclude: 'where'})
     filter?: FilterExcludingWhere<UserDeviceInfo>,
   ): Promise<UserDeviceInfo> {
@@ -117,7 +117,7 @@ export class UserDeviceInfoController {
     description: 'UserDeviceInfo PATCH success',
   })
   async updateById(
-    @param.path.string('id') id: string,
+    @param.path.number('id') id: number,
     @requestBody({
       content: {
         'application/json': {
@@ -135,7 +135,7 @@ export class UserDeviceInfoController {
     description: 'UserDeviceInfo PUT success',
   })
   async replaceById(
-    @param.path.string('id') id: string,
+    @param.path.number('id') id: number,
     @requestBody() userDeviceInfo: UserDeviceInfo,
   ): Promise<void> {
     await this.userDeviceInfoRepository.replaceById(id, userDeviceInfo);
@@ -145,7 +145,7 @@ export class UserDeviceInfoController {
   @response(204, {
     description: 'UserDeviceInfo DELETE success',
   })
-  async deleteById(@param.path.string('id') id: string): Promise<void> {
+  async deleteById(@param.path.number('id') id: number): Promise<void> {
     await this.userDeviceInfoRepository.deleteById(id);
   }
 }

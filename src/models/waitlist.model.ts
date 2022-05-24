@@ -3,11 +3,11 @@ import {Entity, model, property} from '@loopback/repository';
 @model()
 export class Waitlist extends Entity {
   @property({
-    type: 'string',
+    type: 'number',
     id: true,
     generated: true,
   })
-  waitlistId?: string;
+  waitlistId?: number;
 
   @property({
     type: 'string',

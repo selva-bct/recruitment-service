@@ -224,7 +224,7 @@ export class UserController {
     },
   })
   async findById(
-    @param.path.string('id') id: string,
+    @param.path.number('id') id: number,
     @param.filter(User, {exclude: 'where'}) filter?: FilterExcludingWhere<User>,
   ): Promise<User> {
     return this.userRepository.findById(id, filter);
@@ -235,7 +235,7 @@ export class UserController {
     description: 'User PATCH success',
   })
   async updateById(
-    @param.path.string('id') id: string,
+    @param.path.number('id') id: number,
     @requestBody({
       content: {
         'application/json': {
@@ -253,7 +253,7 @@ export class UserController {
     description: 'User PUT success',
   })
   async replaceById(
-    @param.path.string('id') id: string,
+    @param.path.number('id') id: number,
     @requestBody() user: User,
   ): Promise<void> {
     await this.userRepository.replaceById(id, user);
@@ -263,7 +263,7 @@ export class UserController {
   @response(204, {
     description: 'User DELETE success',
   })
-  async deleteById(@param.path.string('id') id: string): Promise<void> {
+  async deleteById(@param.path.number('id') id: number): Promise<void> {
     await this.userRepository.deleteById(id);
   }
 
@@ -282,7 +282,7 @@ export class UserController {
     },
   })
   async getWaitlist(
-    @param.path.string('id') id: typeof User.prototype.userId,
+    @param.path.number('id') id: typeof User.prototype.userId,
   ): Promise<Waitlist> {
     return this.userRepository.waitlist(id);
   }
@@ -302,7 +302,7 @@ export class UserController {
     },
   })
   async findUserRoles(
-    @param.path.string('id') id: string,
+    @param.path.number('id') id: number,
     @param.query.object('filter') filter?: Filter<Role>,
   ): Promise<Role[]> {
     return this.userRepository.roles(id).find(filter);
@@ -317,7 +317,7 @@ export class UserController {
     },
   })
   async createUserRoles(
-    @param.path.string('id') id: typeof User.prototype.userId,
+    @param.path.number('id') id: typeof User.prototype.userId,
     @requestBody({
       content: {
         'application/json': {
@@ -342,7 +342,7 @@ export class UserController {
     },
   })
   async patchUserRoles(
-    @param.path.string('id') id: string,
+    @param.path.number('id') id: number,
     @requestBody({
       content: {
         'application/json': {
@@ -365,7 +365,7 @@ export class UserController {
     },
   })
   async deleteUserRoles(
-    @param.path.string('id') id: string,
+    @param.path.number('id') id: number,
     @param.query.object('where', getWhereSchemaFor(Role)) where?: Where<Role>,
   ): Promise<Count> {
     return this.userRepository.roles(id).delete(where);
@@ -386,7 +386,7 @@ export class UserController {
     },
   })
   async getUser(
-    @param.path.string('id') id: typeof UserDeviceInfo.prototype.userDeviceId,
+    @param.path.number('id') id: typeof UserDeviceInfo.prototype.userDeviceId,
   ): Promise<User> {
     return this.userDeviceInfoRepository.user(id);
   }

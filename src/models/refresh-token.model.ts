@@ -3,11 +3,11 @@ import {User} from '.';
 @model()
 export class RefreshToken extends Entity {
   @property({
-    type: 'string',
+    type: 'number',
     id: true,
     generated: true,
   })
-  id: string;
+  refreshTokenId: number;
 
   @property({
     type: 'string',

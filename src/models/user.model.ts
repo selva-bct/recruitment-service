@@ -14,11 +14,11 @@ import {Waitlist} from './waitlist.model';
 @model()
 export class User extends Entity {
   @property({
-    type: 'string',
+    type: 'number',
     id: true,
     generated: true,
   })
-  userId: string;
+  userId: number;
 
   @property({
     type: 'date',

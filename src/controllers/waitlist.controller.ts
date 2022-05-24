@@ -103,7 +103,7 @@ export class WaitlistController {
     },
   })
   async findById(
-    @param.path.string('id') id: string,
+    @param.path.number('id') id: number,
     @param.filter(Waitlist, {exclude: 'where'})
     filter?: FilterExcludingWhere<Waitlist>,
   ): Promise<Waitlist> {
@@ -115,7 +115,7 @@ export class WaitlistController {
     description: 'Waitlist PATCH success',
   })
   async updateById(
-    @param.path.string('id') id: string,
+    @param.path.number('id') id: number,
     @requestBody({
       content: {
         'application/json': {
@@ -133,7 +133,7 @@ export class WaitlistController {
     description: 'Waitlist PUT success',
   })
   async replaceById(
-    @param.path.string('id') id: string,
+    @param.path.number('id') id: number,
     @requestBody() waitlist: Waitlist,
   ): Promise<void> {
     await this.waitlistRepository.replaceById(id, waitlist);
@@ -143,7 +143,7 @@ export class WaitlistController {
   @response(204, {
     description: 'Waitlist DELETE success',
   })
-  async deleteById(@param.path.string('id') id: string): Promise<void> {
+  async deleteById(@param.path.number('id') id: number): Promise<void> {
     await this.waitlistRepository.deleteById(id);
   }
 }

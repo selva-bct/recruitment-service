@@ -3,11 +3,11 @@ import {Entity, model, property} from '@loopback/repository';
 @model()
 export class RoleMapping extends Entity {
   @property({
-    type: 'string',
+    type: 'number',
     id: true,
     generated: true,
   })
-  roleMappingId: string;
+  roleMappingId: number;
 
   @property({
     type: 'string',
