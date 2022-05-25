@@ -20,6 +20,12 @@ export class UserCredentials extends Entity {
     type: 'string',
     required: true,
   })
+  otp: string;
+
+  @property({
+    type: 'string',
+    required: true,
+  })
   userId: string;
   // [prop: string]: any;
 

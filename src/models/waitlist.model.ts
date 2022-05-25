@@ -7,7 +7,7 @@ export class Waitlist extends Entity {
     id: true,
     generated: true,
   })
-  waitlistId?: number;
+  waitlistId: number;
 
   @property({
     type: 'string',

@@ -109,17 +109,11 @@ export class User extends Entity {
   })
   externalChatId: string;
 
-  @property({
-    type: 'string',
-    required: true,
-  })
-  otp: string;
-
   @hasOne(() => UserCredentials)
   userCredentials: UserCredentials;
 
   @belongsTo(() => Waitlist)
-  waitlistId: string;
+  waitlistId: number;
 
   @hasMany(() => Role, {through: {model: () => RoleMapping}})
   roles: Role[];
