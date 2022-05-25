@@ -13,6 +13,7 @@ import {
   get,
   getModelSchemaRef,
   getWhereSchemaFor,
+  HttpErrors,
   param,
   patch,
   post,
@@ -152,12 +153,12 @@ export class UserController {
       },
     });
     if (!waitlistUser) {
-      throw new Error(
-        '(::Custom Error::) ACCESS_FORBIDDEN{{End}} Given Email is not part of The Waitlist.',
+      throw new HttpErrors.Forbidden(
+        'Given Email is not part of The Waitlist.',
       );
     } else if (!waitlistUser.isApproved) {
-      throw new Error(
-        '(::Custom Error::) ACCESS_FORBIDDEN{{End}} Given Email is not approved from Waitlist.',
+      throw new HttpErrors.Forbidden(
+        'Given Email is not approved from Waitlist.',
       );
     } else {
       newUserRequest.waitlistId = waitlistUser.waitlistId;
