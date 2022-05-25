@@ -1,7 +1,7 @@
 import {BootMixin} from '@loopback/boot';
 import {ApplicationConfig} from '@loopback/core';
 import {RepositoryMixin} from '@loopback/repository';
-import {RestApplication} from '@loopback/rest';
+import {RestApplication, RestBindings} from '@loopback/rest';
 import {
   RestExplorerBindings,
   RestExplorerComponent,
@@ -10,6 +10,7 @@ import {ServiceMixin} from '@loopback/service-proxy';
 import path from 'path';
 import {JWTAuthenticationComponent} from './component/jwt-authentication-component';
 import {IndulgeDBDataSource} from './datasources';
+import {CustomErrorProvider} from './providers';
 import {MySequence} from './sequence';
 export {ApplicationConfig};
 
@@ -18,7 +19,6 @@ export class UserServiceApplication extends BootMixin(
 ) {
   constructor(options: ApplicationConfig = {}) {
     super(options);
-
     // Set up the custom sequence
     this.sequence(MySequence);
 
@@ -33,9 +33,13 @@ export class UserServiceApplication extends BootMixin(
 
     this.dataSource(IndulgeDBDataSource);
     this.component(JWTAuthenticationComponent);
-
+    // Configuring the custom error handler
+    this.bind(RestBindings.SequenceActions.REJECT).toProvider(
+      CustomErrorProvider,
+    );
     this.projectRoot = __dirname;
     // Customize @loopback/boot Booter Conventions here
+
     this.bootOptions = {
       controllers: {
         // Customize ControllerBooter Conventions here
