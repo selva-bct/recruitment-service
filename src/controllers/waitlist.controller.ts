@@ -1,3 +1,4 @@
+import {authenticate} from '@loopback/authentication';
 import {
   Count,
   CountSchema,
@@ -47,6 +48,7 @@ export class WaitlistController {
     return this.waitlistRepository.create(waitlist);
   }
 
+  @authenticate('jwt')
   @get('/waitlists/count')
   @response(200, {
     description: 'Waitlist model count',
@@ -56,6 +58,7 @@ export class WaitlistController {
     return this.waitlistRepository.count(where);
   }
 
+  @authenticate('jwt')
   @get('/waitlists')
   @response(200, {
     description: 'Array of Waitlist model instances',
@@ -74,6 +77,7 @@ export class WaitlistController {
     return this.waitlistRepository.find(filter);
   }
 
+  @authenticate('jwt')
   @patch('/waitlists')
   @response(200, {
     description: 'Waitlist PATCH success count',
@@ -93,6 +97,7 @@ export class WaitlistController {
     return this.waitlistRepository.updateAll(waitlist, where);
   }
 
+  @authenticate('jwt')
   @get('/waitlists/{id}')
   @response(200, {
     description: 'Waitlist model instance',
@@ -110,6 +115,7 @@ export class WaitlistController {
     return this.waitlistRepository.findById(id, filter);
   }
 
+  @authenticate('jwt')
   @patch('/waitlists/{id}')
   @response(204, {
     description: 'Waitlist PATCH success',
@@ -128,6 +134,7 @@ export class WaitlistController {
     await this.waitlistRepository.updateById(id, waitlist);
   }
 
+  @authenticate('jwt')
   @put('/waitlists/{id}')
   @response(204, {
     description: 'Waitlist PUT success',
@@ -139,6 +146,7 @@ export class WaitlistController {
     await this.waitlistRepository.replaceById(id, waitlist);
   }
 
+  @authenticate('jwt')
   @del('/waitlists/{id}')
   @response(204, {
     description: 'Waitlist DELETE success',

@@ -1,3 +1,4 @@
+import {authenticate} from '@loopback/authentication';
 import {
   Count,
   CountSchema,
@@ -19,7 +20,7 @@ import {
 } from '@loopback/rest';
 import {UserDeviceInfo} from '../models';
 import {UserDeviceInfoRepository} from '../repositories';
-
+@authenticate('jwt')
 export class UserDeviceInfoController {
   constructor(
     @repository(UserDeviceInfoRepository)
