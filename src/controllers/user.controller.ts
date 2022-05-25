@@ -25,7 +25,11 @@ import {SecurityBindings, securityId, UserProfile} from '@loopback/security';
 import {genSalt, hash} from 'bcryptjs';
 import {TokenServiceBindings, UserServiceBindings} from '../keys';
 import {Role, User, UserDeviceInfo, Waitlist} from '../models';
-import {UserDeviceInfoRepository, UserRepository} from '../repositories';
+import {
+  UserDeviceInfoRepository,
+  UserRepository,
+  WaitlistRepository,
+} from '../repositories';
 import {Credentials, MyUserService} from '../services';
 
 const CredentialsSchema: SchemaObject = {
@@ -60,6 +64,8 @@ export class UserController {
     @inject(SecurityBindings.USER, {optional: true})
     public user: UserProfile,
     @repository(UserRepository) protected userRepository: UserRepository,
+    @repository(WaitlistRepository)
+    protected waitlistRepository: WaitlistRepository,
     @repository(UserDeviceInfoRepository)
     public userDeviceInfoRepository: UserDeviceInfoRepository,
   ) {}
@@ -140,6 +146,22 @@ export class UserController {
     })
     newUserRequest: User,
   ): Promise<User> {
+    const waitlistUser = await this.waitlistRepository.findOne({
+      where: {
+        email: newUserRequest.email,
+      },
+    });
+    if (!waitlistUser) {
+      throw new Error(
+        '(::Custom Error::) ACCESS_FORBIDDEN{{End}} Given Email is not part of The Waitlist.',
+      );
+    } else if (!waitlistUser.isApproved) {
+      throw new Error(
+        '(::Custom Error::) ACCESS_FORBIDDEN{{End}} Given Email is not approved from Waitlist.',
+      );
+    } else {
+      newUserRequest.waitlistId = waitlistUser.waitlistId;
+    }
     const password = await hash(newUserRequest.password, await genSalt());
     newUserRequest.password = password;
     const savedUser = await this.userRepository.create(newUserRequest);

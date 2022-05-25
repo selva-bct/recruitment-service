@@ -84,3 +84,14 @@ export namespace RefreshTokenServiceBindings {
    */
   export const REFRESH_REPOSITORY = 'repositories.RefreshTokenRepository';
 }
+
+export namespace HttpStatusMapping {
+  export const codeToStatusCodeMap: {[key: string]: number} = {
+    ENTITY_NOT_FOUND: 404,
+    ACCESS_FORBIDDEN: 403,
+    NOT_AUTHORIZED: 401,
+    VALIDATION_ERROR: 400,
+    ENTITY_CONFLICT: 409,
+    UN_PROCESSIBLE_ENTITY: 429,
+  };
+}

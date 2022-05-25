@@ -51,6 +51,13 @@ export class Waitlist extends Entity {
   })
   countryCode: string;
 
+  @property({
+    type: 'boolean',
+    required: true,
+    default: false,
+  })
+  isApproved: boolean;
+
   constructor(data?: Partial<Waitlist>) {
     super(data);
   }
