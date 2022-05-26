@@ -22,7 +22,7 @@ import {
   response,
   SchemaObject,
 } from '@loopback/rest';
-import {SecurityBindings, securityId, UserProfile} from '@loopback/security';
+import {SecurityBindings, UserProfile} from '@loopback/security';
 import {genSalt, hash} from 'bcryptjs';
 import {TokenServiceBindings, UserServiceBindings} from '../keys';
 import {Role, User, UserDeviceInfo, Waitlist} from '../models';
@@ -56,6 +56,7 @@ export const CredentialsRequestBody = {
   },
 };
 
+@authenticate('jwt')
 export class UserController {
   constructor(
     @inject(TokenServiceBindings.TOKEN_SERVICE)
@@ -71,6 +72,7 @@ export class UserController {
     public userDeviceInfoRepository: UserDeviceInfoRepository,
   ) {}
 
+  @authenticate.skip()
   @post('/users/login', {
     responses: {
       '200': {
@@ -99,7 +101,6 @@ export class UserController {
     return {token};
   }
 
-  @authenticate('jwt')
   @get('/me', {
     responses: {
       '200': {
@@ -117,11 +118,10 @@ export class UserController {
   async me(
     @inject(SecurityBindings.USER)
     currentUserProfile: UserProfile,
-  ): Promise<string> {
-    return currentUserProfile[securityId];
+  ): Promise<UserProfile> {
+    return currentUserProfile;
   }
 
-  @authenticate('jwt')
   @post('/users/signup', {
     responses: {
       '200': {
@@ -173,7 +173,6 @@ export class UserController {
     return savedUser;
   }
 
-  @authenticate('jwt')
   @get('/users/count')
   @response(200, {
     description: 'User model count',
@@ -183,7 +182,6 @@ export class UserController {
     return this.userRepository.count(where);
   }
 
-  @authenticate('jwt')
   @get('/users')
   @response(200, {
     description: 'Array of User model instances',
@@ -200,7 +198,6 @@ export class UserController {
     return this.userRepository.find(filter);
   }
 
-  @authenticate('jwt')
   @patch('/users')
   @response(200, {
     description: 'User PATCH success count',
@@ -220,7 +217,6 @@ export class UserController {
     return this.userRepository.updateAll(user, where);
   }
 
-  @authenticate('jwt')
   @get('/users/{id}')
   @response(200, {
     description: 'User model instance',
@@ -237,7 +233,6 @@ export class UserController {
     return this.userRepository.findById(id, filter);
   }
 
-  @authenticate('jwt')
   @patch('/users/{id}')
   @response(204, {
     description: 'User PATCH success',
@@ -256,7 +251,6 @@ export class UserController {
     await this.userRepository.updateById(id, user);
   }
 
-  @authenticate('jwt')
   @put('/users/{id}')
   @response(204, {
     description: 'User PUT success',
@@ -268,7 +262,6 @@ export class UserController {
     await this.userRepository.replaceById(id, user);
   }
 
-  @authenticate('jwt')
   @del('/users/{id}')
   @response(204, {
     description: 'User DELETE success',
@@ -279,7 +272,6 @@ export class UserController {
 
   // Rest api for consuming user's waitlist
 
-  @authenticate('jwt')
   @get('/users/{id}/waitlist', {
     responses: {
       '200': {
@@ -300,7 +292,6 @@ export class UserController {
 
   // Rest api to consume user and role info
 
-  @authenticate('jwt')
   @get('/users/{id}/roles', {
     responses: {
       '200': {
@@ -320,7 +311,6 @@ export class UserController {
     return this.userRepository.roles(id).find(filter);
   }
 
-  @authenticate('jwt')
   @post('/users/{id}/roles', {
     responses: {
       '200': {
@@ -346,7 +336,6 @@ export class UserController {
     return this.userRepository.roles(id).create(role);
   }
 
-  @authenticate('jwt')
   @patch('/users/{id}/roles', {
     responses: {
       '200': {
@@ -370,7 +359,6 @@ export class UserController {
     return this.userRepository.roles(id).patch(role, where);
   }
 
-  @authenticate('jwt')
   @del('/users/{id}/roles', {
     responses: {
       '200': {
@@ -388,7 +376,6 @@ export class UserController {
 
   // Rest api to consume user device
 
-  @authenticate('jwt')
   @get('/user-device-infos/{id}/user', {
     responses: {
       '200': {

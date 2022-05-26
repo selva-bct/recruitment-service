@@ -1,3 +1,7 @@
+import {
+  AuthenticationComponent,
+  registerAuthenticationStrategy,
+} from '@loopback/authentication';
 import {BootMixin} from '@loopback/boot';
 import {ApplicationConfig} from '@loopback/core';
 import {RepositoryMixin} from '@loopback/repository';
@@ -12,6 +16,7 @@ import {JWTAuthenticationComponent} from './component/jwt-authentication-compone
 import {IndulgeDBDataSource} from './datasources';
 import {CustomErrorProvider} from './providers';
 import {MySequence} from './sequence';
+import {JWTAuthenticationStrategy} from './services';
 export {ApplicationConfig};
 
 export class UserServiceApplication extends BootMixin(
@@ -30,9 +35,11 @@ export class UserServiceApplication extends BootMixin(
       path: '/explorer',
     });
     this.component(RestExplorerComponent);
-
-    this.dataSource(IndulgeDBDataSource);
+    this.component(AuthenticationComponent);
+    registerAuthenticationStrategy(this, JWTAuthenticationStrategy);
     this.component(JWTAuthenticationComponent);
+    this.dataSource(IndulgeDBDataSource);
+
     // Configuring the custom error handler
     this.bind(RestBindings.SequenceActions.REJECT).toProvider(
       CustomErrorProvider,

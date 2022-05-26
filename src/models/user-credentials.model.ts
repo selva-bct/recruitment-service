@@ -18,7 +18,6 @@ export class UserCredentials extends Entity {
 
   @property({
     type: 'string',
-    required: true,
   })
   otp: string;
 
