@@ -16,7 +16,7 @@ export class RefreshToken extends Entity {
   refreshToken: string;
 
   @belongsTo(() => User)
-  userId: string;
+  userId: number;
 
   constructor(data?: Partial<RefreshToken>) {
     super(data);

@@ -25,23 +25,32 @@ export class UserDeviceInfo extends Entity {
   @property({
     type: 'string',
     required: true,
+    jsonSchema: {
+      transform: ['toLowerCase'],
+    },
   })
   deviceType: string;
 
   @property({
     type: 'string',
     required: true,
+    jsonSchema: {
+      transform: ['toLowerCase'],
+    },
   })
   deviceName: string;
 
   @property({
     type: 'string',
     required: true,
+    jsonSchema: {
+      transform: ['toLowerCase'],
+    },
   })
   deviceCategory?: string;
 
   @belongsTo(() => User)
-  userId: string;
+  userId: number;
 
   constructor(data?: Partial<UserDeviceInfo>) {
     super(data);

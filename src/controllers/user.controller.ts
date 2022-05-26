@@ -148,6 +148,9 @@ export class UserController {
     })
     newUserRequest: User,
   ): Promise<User> {
+    if (!newUserRequest.password) {
+      throw new HttpErrors.BadRequest('Missing Password Field.');
+    }
     const waitlistUser = await this.waitlistRepository.findOne({
       where: {
         email: newUserRequest.email,

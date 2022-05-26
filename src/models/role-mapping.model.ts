@@ -10,14 +10,14 @@ export class RoleMapping extends Entity {
   roleMappingId: number;
 
   @property({
-    type: 'string',
+    type: 'number',
   })
-  userId: string;
+  userId: number;
 
   @property({
-    type: 'string',
+    type: 'number',
   })
-  roleId: string;
+  roleId: number;
 
   constructor(data?: Partial<RoleMapping>) {
     super(data);

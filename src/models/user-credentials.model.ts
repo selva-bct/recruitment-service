@@ -22,10 +22,10 @@ export class UserCredentials extends Entity {
   otp: string;
 
   @property({
-    type: 'string',
+    type: 'number',
     required: true,
   })
-  userId: string;
+  userId: number;
   // [prop: string]: any;
 
   constructor(data?: Partial<UserCredentials>) {

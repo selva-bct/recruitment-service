@@ -12,6 +12,9 @@ export class Role extends Entity {
   @property({
     type: 'string',
     required: true,
+    jsonSchema: {
+      transform: ['toLowerCase'],
+    },
   })
   name: string;
 

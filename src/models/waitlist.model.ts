@@ -27,12 +27,18 @@ export class Waitlist extends Entity {
   @property({
     type: 'string',
     required: true,
+    jsonSchema: {
+      transform: ['toLowerCase'],
+    },
   })
   firstName: string;
 
   @property({
     type: 'string',
     required: true,
+    jsonSchema: {
+      transform: ['toLowerCase'],
+    },
   })
   lastName: string;
 

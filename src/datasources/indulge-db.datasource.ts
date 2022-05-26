@@ -5,12 +5,12 @@ import {UserServiceBindings} from '../keys';
 const config = {
   name: UserServiceBindings.DATASOURCE_NAME,
   connector: 'mysql',
-  url: process.env.DB_URL,
-  host: process.env.DB_HOST,
-  port: process.env.DB_PORT,
-  user: process.env.DB_USER,
-  password: process.env.DB_PSWD,
-  database: process.env.DB_NAME,
+  url: '',
+  host: 'localhost',
+  port: 3306,
+  user: 'indulge-local',
+  password: 'indulge$123%fds',
+  database: 'indulge-local',
 };
 
 // Observe application's life cycle to disconnect the datasource when

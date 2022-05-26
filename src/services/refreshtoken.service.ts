@@ -51,7 +51,7 @@ export class RefreshtokenService {
       refreshToken: refreshToken,
     };
     await this.refreshTokenRepository.create({
-      userId: userProfile[securityId],
+      userId: Number(userProfile[securityId]),
       refreshToken: result.refreshToken,
     });
     return result;
