@@ -15,6 +15,9 @@ export class Role extends Entity {
     jsonSchema: {
       transform: ['toLowerCase'],
     },
+    index: {
+      unique: true,
+    },
   })
   name: string;
 
