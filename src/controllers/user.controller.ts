@@ -24,14 +24,19 @@ import {
 } from '@loopback/rest';
 import {SecurityBindings, UserProfile} from '@loopback/security';
 import {genSalt, hash} from 'bcryptjs';
-import {TokenServiceBindings, UserServiceBindings} from '../keys';
+import {
+  RefreshTokenServiceBindings,
+  TokenServiceBindings,
+  UserServiceBindings,
+} from '../keys';
 import {Role, User, UserDeviceInfo, Waitlist} from '../models';
 import {
   UserDeviceInfoRepository,
   UserRepository,
   WaitlistRepository,
 } from '../repositories';
-import {Credentials, MyUserService} from '../services';
+import {Credentials, MyUserService, RefreshtokenService} from '../services';
+import {TokenObject} from '../types';
 
 const CredentialsSchema: SchemaObject = {
   type: 'object',
@@ -56,11 +61,37 @@ export const CredentialsRequestBody = {
   },
 };
 
+type RefreshGrant = {
+  refreshToken: string;
+};
+
+// Describes the schema of grant object
+const RefreshGrantSchema: SchemaObject = {
+  type: 'object',
+  required: ['refreshToken'],
+  properties: {
+    refreshToken: {
+      type: 'string',
+    },
+  },
+};
+
+// Describes the request body of grant object
+const RefreshGrantRequestBody = {
+  description: 'Reissuing Acess Token',
+  required: true,
+  content: {
+    'application/json': {schema: RefreshGrantSchema},
+  },
+};
+
 @authenticate('jwt')
 export class UserController {
   constructor(
     @inject(TokenServiceBindings.TOKEN_SERVICE)
     public jwtService: TokenService,
+    @inject(RefreshTokenServiceBindings.REFRESH_TOKEN_SERVICE)
+    public refreshTokenService: RefreshtokenService,
     @inject(UserServiceBindings.USER_SERVICE)
     public userService: MyUserService,
     @inject(SecurityBindings.USER, {optional: true})
@@ -85,6 +116,9 @@ export class UserController {
                 token: {
                   type: 'string',
                 },
+                refreshToken: {
+                  type: 'string',
+                },
               },
             },
           },
@@ -94,11 +128,41 @@ export class UserController {
   })
   async login(
     @requestBody(CredentialsRequestBody) credentials: Credentials,
-  ): Promise<{token: string}> {
+  ): Promise<TokenObject> {
     const user = await this.userService.verifyCredentials(credentials);
     const userProfile = this.userService.convertToUserProfile(user);
     const token = await this.jwtService.generateToken(userProfile);
-    return {token};
+    const tokens = await this.refreshTokenService.generateToken(
+      userProfile,
+      token,
+    );
+    return tokens;
+  }
+
+  @authenticate.skip()
+  @post('/user/refresh', {
+    responses: {
+      '200': {
+        description: 'Token',
+        content: {
+          'application/json': {
+            schema: {
+              type: 'object',
+              properties: {
+                accessToken: {
+                  type: 'object',
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  })
+  async refresh(
+    @requestBody(RefreshGrantRequestBody) refreshGrant: RefreshGrant,
+  ): Promise<TokenObject> {
+    return this.refreshTokenService.refreshToken(refreshGrant.refreshToken);
   }
 
   @get('/me', {

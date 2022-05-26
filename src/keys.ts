@@ -49,7 +49,7 @@ export namespace RefreshTokenConstants {
   /**
    * The default expiration time for refresh token.
    */
-  export const REFRESH_EXPIRES_IN_VALUE = '216000';
+  export const REFRESH_EXPIRES_IN_VALUE = '2160000';
   /**
    * The default issuer used when generating refresh token.
    */
