@@ -1,15 +1,7 @@
-import {
-  belongsTo,
-  Entity,
-  hasMany,
-  hasOne,
-  model,
-  property,
-} from '@loopback/repository';
+import {Entity, hasMany, hasOne, model, property} from '@loopback/repository';
 import {RoleMapping} from './role-mapping.model';
 import {Role} from './role.model';
 import {UserCredentials} from './user-credentials.model';
-import {Waitlist} from './waitlist.model';
 
 @model({
   settings: {
@@ -124,9 +116,6 @@ export class User extends Entity {
 
   @hasOne(() => UserCredentials)
   userCredentials: UserCredentials;
-
-  @belongsTo(() => Waitlist)
-  waitlistId: number;
 
   @hasMany(() => Role, {through: {model: () => RoleMapping}})
   roles: Role[];

@@ -1,6 +1,5 @@
 import {Getter, inject} from '@loopback/core';
 import {
-  BelongsToAccessor,
   DefaultCrudRepository,
   HasManyThroughRepositoryFactory,
   HasOneRepositoryFactory,
@@ -14,12 +13,10 @@ import {
   User,
   UserCredentials,
   UserRelations,
-  Waitlist,
 } from '../models';
 import {RoleMappingRepository} from './role-mapping.repository';
 import {RoleRepository} from './role.repository';
 import {UserCredentialsRepository} from './user-credentials.repository';
-import {WaitlistRepository} from './waitlist.repository';
 
 export class UserRepository extends DefaultCrudRepository<
   User,
@@ -28,11 +25,6 @@ export class UserRepository extends DefaultCrudRepository<
 > {
   public readonly userCredentials: HasOneRepositoryFactory<
     UserCredentials,
-    typeof User.prototype.userId
-  >;
-
-  public readonly waitlist: BelongsToAccessor<
-    Waitlist,
     typeof User.prototype.userId
   >;
 
@@ -49,8 +41,6 @@ export class UserRepository extends DefaultCrudRepository<
     @repository.getter('UserCredentialsRepository')
     protected userCredentialsRepositoryGetter: Getter<UserCredentialsRepository>,
     @repository.getter('WaitlistRepository')
-    protected waitlistRepositoryGetter: Getter<WaitlistRepository>,
-    @repository.getter('RoleMappingRepository')
     protected roleMappingRepositoryGetter: Getter<RoleMappingRepository>,
     @repository.getter('RoleRepository')
     protected roleRepositoryGetter: Getter<RoleRepository>,
@@ -64,11 +54,6 @@ export class UserRepository extends DefaultCrudRepository<
       roleMappingRepositoryGetter,
     );
     this.registerInclusionResolver('roles', this.roles.inclusionResolver);
-    this.waitlist = this.createBelongsToAccessorFor(
-      'waitlist',
-      waitlistRepositoryGetter,
-    );
-    this.registerInclusionResolver('waitlist', this.waitlist.inclusionResolver);
     this.userCredentials = this.createHasOneRepositoryFactoryFor(
       'userCredentials',
       userCredentialsRepositoryGetter,

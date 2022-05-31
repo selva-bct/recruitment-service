@@ -29,12 +29,8 @@ import {
   TokenServiceBindings,
   UserServiceBindings,
 } from '../keys';
-import {Role, User, UserDeviceInfo, Waitlist} from '../models';
-import {
-  UserDeviceInfoRepository,
-  UserRepository,
-  WaitlistRepository,
-} from '../repositories';
+import {Role, User, UserDeviceInfo} from '../models';
+import {UserDeviceInfoRepository, UserRepository} from '../repositories';
 import {Credentials, MyUserService, RefreshtokenService} from '../services';
 import {TokenObject} from '../types';
 
@@ -97,8 +93,6 @@ export class UserController {
     @inject(SecurityBindings.USER, {optional: true})
     public user: UserProfile,
     @repository(UserRepository) protected userRepository: UserRepository,
-    @repository(WaitlistRepository)
-    protected waitlistRepository: WaitlistRepository,
     @repository(UserDeviceInfoRepository)
     public userDeviceInfoRepository: UserDeviceInfoRepository,
   ) {}
@@ -215,22 +209,6 @@ export class UserController {
     if (!newUserRequest.password) {
       throw new HttpErrors.BadRequest('Missing Password Field.');
     }
-    const waitlistUser = await this.waitlistRepository.findOne({
-      where: {
-        email: newUserRequest.email,
-      },
-    });
-    if (!waitlistUser) {
-      throw new HttpErrors.Forbidden(
-        'Given Email is not part of The Waitlist.',
-      );
-    } else if (!waitlistUser.isApproved) {
-      throw new HttpErrors.Forbidden(
-        'Given Email is not approved from Waitlist.',
-      );
-    } else {
-      newUserRequest.waitlistId = waitlistUser.waitlistId;
-    }
     const password = await hash(newUserRequest.password, await genSalt());
     newUserRequest.password = password;
     const savedUser = await this.userRepository.create(newUserRequest);
@@ -335,26 +313,6 @@ export class UserController {
   })
   async deleteById(@param.path.number('id') id: number): Promise<void> {
     await this.userRepository.deleteById(id);
-  }
-
-  // Rest api for consuming user's waitlist
-
-  @get('/users/{id}/waitlist', {
-    responses: {
-      '200': {
-        description: 'Waitlist belonging to User',
-        content: {
-          'application/json': {
-            schema: {type: 'array', items: getModelSchemaRef(Waitlist)},
-          },
-        },
-      },
-    },
-  })
-  async getWaitlist(
-    @param.path.number('id') id: typeof User.prototype.userId,
-  ): Promise<Waitlist> {
-    return this.userRepository.waitlist(id);
   }
 
   // Rest api to consume user and role info
